@@ -1,0 +1,99 @@
+.log-item {
+  @extend .list-group-item;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+
+  .log-item-description {
+    width: 66.66%;
+    @media (max-width: $screen-xs-min) {
+      width: 100%;
+      text-align: center;
+    }
+
+    p {
+      padding: 10px 15px;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+    }
+  }
+
+  .log-item-options {
+    width: 33.33%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    @media (max-width: $screen-xs-min) {
+      width: 100%;
+      position: relative;
+    }
+    overflow: hidden;
+    text-align: center;
+    overflow: hidden;
+
+    ul {
+      @extend .list-inline;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    li {
+      width: 50%;
+      float: left;
+      display: block;
+      padding: 0;
+      position: relative;
+    }
+
+    .option-label {
+      transition: 200ms;
+      transition-delay: 10ms;
+      font-size: 0.5em;
+      display: block;
+      color: black;
+      min-height: 10px;
+      text-transform: uppercase;
+    }
+
+    .option-detail {
+      display: block;
+      height:20px;
+      width:100%;
+      position: relative;
+
+      .option-detail-center{
+        position: absolute;
+        left:0;
+        right:0;
+        margin:auto;
+      }
+    }
+
+    .select-line {
+      width: 50%;
+      margin: 0;
+      height: 12px;
+      background-color: #87CEFA;
+      border-radius: 3px 3px 0 0;
+      position: absolute;
+      left: 100%;
+      bottom: 0;
+      transition: 200ms;
+    }
+
+    &.selected-option-1 .option-1 .option-label, &.selected-option-2 .option-2 .option-label {
+      color: white;
+    }
+
+    &.selected-option-1 .select-line {
+      left: 0%
+    }
+    &.selected-option-2 .select-line {
+      left: 50%;
+    }
+  }
+}
+

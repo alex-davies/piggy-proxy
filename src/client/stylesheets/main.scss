@@ -1,0 +1,51 @@
+@import "../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "./components/LogItem.scss";
+@import "./components/LoadingBubbles.scss";
+
+
+@mixin fade-react-css-transition-group($name, $fadeInTime, $fadeOutTime) {
+  .#{$name}-enter {
+    opacity: 0.01;
+    &.#{$name}-enter-active {
+      opacity: 1;
+      transition: opacity $fadeInTime ease-in;
+    }
+  }
+
+  .#{$name}-leave {
+    opacity: 1;
+    &.#{$name}-leave-active {
+      opacity: 0.01;
+      transition: opacity $fadeOutTime ease-in;
+    }
+  }
+}
+
+
+@include fade-react-css-transition-group("fade-300-300", 300ms, 300ms);
+
+
+a.unstyled, a.unstyled:link, a.unstyled:visited, a.unstyled:hover, a.unstyled:active {
+  color: inherit;
+  text-decoration: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
+
+//.example-enter {
+//  opacity: 0.01;
+//}
+//
+//.example-enter.example-enter-active {
+//  opacity: 1;
+//  transition: opacity 500ms ease-in;
+//}
+//
+//.example-leave {
+//  opacity: 1;
+//}
+//
+//.example-leave.example-leave-active {
+//  opacity: 0.01;
+//  transition: opacity 300ms ease-in;
+//}
