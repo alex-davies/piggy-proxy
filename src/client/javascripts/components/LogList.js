@@ -27,7 +27,6 @@ var LogList = (function (_super) {
         this.state.subscription = io.connect("/subscribe");
         this.state.subscription.on('connect', function () {
             _this.state.subscription.on("request-head", function (data) {
-                // console.log("request head", data);
                 _this.setState(function (state, props) {
                     var communication = new LogItem_2.Communication();
                     communication.requestHead = {
@@ -41,10 +40,8 @@ var LogList = (function (_super) {
                 });
             });
             _this.state.subscription.on("request-body", function (data) {
-                //console.log("request body", data);
             });
             _this.state.subscription.on("request-tail", function (data) {
-                // console.log("request tail", data);
             });
             _this.state.subscription.on("response-head", function (data) {
                 var communication = _this.state.communicationIndex[data.key];
@@ -54,25 +51,10 @@ var LogList = (function (_super) {
                     statusCode: data.statusCode,
                     headers: {}
                 };
-                //console.log("response head", data);
-                // this.setState((state,props)=>{
-                //
-                //     let logItem = this.state.logItemsIndex[data.key];
-                //     if(!logItem)
-                //         return state;
-                //     logItem.responseHead = {
-                //         statusCode: data.statusCode,
-                //         headers: {} as {[key:string]:string}
-                //     };
-                //
-                //     return state;
-                // });
             });
             _this.state.subscription.on("response-body", function (data) {
-                //console.log("response body", ab2str(data.chunk));
             });
             _this.state.subscription.on("response-tail", function (data) {
-                //console.log("response tail", data);
             });
         });
     };

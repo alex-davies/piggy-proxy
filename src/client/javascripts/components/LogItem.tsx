@@ -14,7 +14,6 @@ export class Communication{
         statusCode:number,
         headers:{[key:string]:string}
     };
-
 }
 
 export interface LogItemProps {

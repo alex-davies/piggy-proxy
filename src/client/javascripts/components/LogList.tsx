@@ -1,7 +1,6 @@
 import * as io from "socket.io-client";
 import * as React from "react";
-import LogItem from "./LogItem"
-import {LogItemProps} from "./LogItem";
+import LogItem from "./LogItem";
 import {Communication} from "./LogItem";
 
 
@@ -39,7 +38,7 @@ export default class LogList extends React.Component<LogListProps, LogListState>
 
 
             this.state.subscription.on("request-head", (data)=> {
-               // console.log("request head", data);
+
                 this.setState((state,props)=>{
 
                     let communication = new Communication();
@@ -54,11 +53,13 @@ export default class LogList extends React.Component<LogListProps, LogListState>
                     return state;
                 })
             });
+
             this.state.subscription.on("request-body", (data)=> {
-                //console.log("request body", data);
+
             });
+
             this.state.subscription.on("request-tail", (data)=> {
-               // console.log("request tail", data);
+
             });
 
 
@@ -70,28 +71,13 @@ export default class LogList extends React.Component<LogListProps, LogListState>
                     statusCode: data.statusCode,
                     headers: {} as {[key:string]:string}
                 };
-
-
-                //console.log("response head", data);
-                // this.setState((state,props)=>{
-                //
-                //     let logItem = this.state.logItemsIndex[data.key];
-                //     if(!logItem)
-                //         return state;
-                //     logItem.responseHead = {
-                //         statusCode: data.statusCode,
-                //         headers: {} as {[key:string]:string}
-                //     };
-                //
-                //     return state;
-                // });
             });
 
             this.state.subscription.on("response-body", (data)=> {
-                //console.log("response body", ab2str(data.chunk));
+
             });
             this.state.subscription.on("response-tail", (data)=> {
-                //console.log("response tail", data);
+
             });
         });
     }
