@@ -1,99 +1,118 @@
+@import "../variables";
+
 .log-item {
   @extend .list-group-item;
   padding: 0;
   overflow: hidden;
-  position: relative;
 
-  .log-item-description {
-    width: 66.66%;
-    @media (max-width: $screen-xs-min) {
-      width: 100%;
-      text-align: center;
-    }
 
-    p {
-      padding: 10px 15px;
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+  .log-item-header{
+    position: relative;
+    .log-item-description {
+      width: 66.66%;
+      @media (max-width: $screen-xs-min) {
+        width: 100%;
+        text-align: center;
+      }
 
-    }
-  }
+      p {
+        padding: 10px 15px;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
-  .log-item-options {
-    width: 33.33%;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    @media (max-width: $screen-xs-min) {
-      width: 100%;
-      position: relative;
-    }
-    overflow: hidden;
-    text-align: center;
-    overflow: hidden;
-
-    ul {
-      @extend .list-inline;
-      overflow: hidden;
-      margin: 0;
-    }
-
-    li {
-      width: 50%;
-      float: left;
-      display: block;
-      padding: 0;
-      position: relative;
-    }
-
-    .option-label {
-      transition: 200ms;
-      transition-delay: 10ms;
-      font-size: 0.5em;
-      display: block;
-      color: black;
-      min-height: 10px;
-      text-transform: uppercase;
-    }
-
-    .option-detail {
-      display: block;
-      height:20px;
-      width:100%;
-      position: relative;
-
-      .option-detail-center{
-        position: absolute;
-        left:0;
-        right:0;
-        margin:auto;
       }
     }
 
-    .select-line {
-      width: 50%;
-      margin: 0;
-      height: 12px;
-      background-color: #87CEFA;
-      border-radius: 3px 3px 0 0;
+    .log-item-options {
+      width: 33.33%;
       position: absolute;
-      left: 100%;
+      right: 0;
       bottom: 0;
-      transition: 200ms;
-    }
+      @media (max-width: $screen-xs-min) {
+        width: 100%;
+        position: relative;
+      }
+      overflow: hidden;
+      text-align: center;
+      overflow: hidden;
 
-    &.selected-option-1 .option-1 .option-label, &.selected-option-2 .option-2 .option-label {
-      color: white;
-    }
+      ul {
+        @extend .list-inline;
+        overflow: hidden;
+        margin: 0;
+      }
 
-    &.selected-option-1 .select-line {
-      left: 0%
-    }
-    &.selected-option-2 .select-line {
-      left: 50%;
+      li {
+        width: 50%;
+        float: left;
+        display: block;
+        padding: 0;
+        position: relative;
+      }
+
+      .tab-label {
+        transition: 200ms;
+        transition-delay: 10ms;
+        font-size: 0.5em;
+        display: block;
+        color: black;
+        min-height: 10px;
+        text-transform: uppercase;
+      }
+
+      .tab-detail {
+        display: block;
+        height:20px;
+        width:100%;
+        position: relative;
+
+        .tab-detail-center{
+          position: absolute;
+          left:0;
+          right:0;
+          margin:auto;
+        }
+      }
+
+      .select-line {
+        width: 50%;
+        margin: 0;
+        height: 12px;
+        background-color: $tab-highlight-color;
+        border-radius: 3px 3px 0 0;
+        position: absolute;
+        left: 100%;
+        bottom: 0;
+        transition: 200ms;
+      }
+
+      &.selected-tab-request .tab-request .tab-label, &.selected-tab-response .tab-response .tab-label {
+        color: white;
+      }
+
+      &.selected-tab-request .select-line {
+        left: 0%
+      }
+      &.selected-tab-response .select-line {
+        left: 50%;
+      }
     }
   }
+
+  .log-item-body{
+    padding:15px 15px;
+    border-top: 2px solid $tab-highlight-color;
+
+    font-size: 0.8em;
+  }
+
+  .log-item-request {
+    th{
+      white-space: nowrap;
+    }
+  }
+
 }
 

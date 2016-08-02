@@ -1351,11 +1351,11 @@ ol {
   padding-left: 0;
   list-style: none; }
 
-.list-inline, .log-item .log-item-options ul {
+.list-inline, .log-item .log-item-header .log-item-options ul {
   padding-left: 0;
   list-style: none;
   margin-left: -5px; }
-  .list-inline > li, .log-item .log-item-options ul > li {
+  .list-inline > li, .log-item .log-item-header .log-item-options ul > li {
     display: inline-block;
     padding-left: 5px;
     padding-right: 5px; }
@@ -5825,75 +5825,82 @@ button.close {
 
 .log-item {
   padding: 0;
-  overflow: hidden;
-  position: relative; }
-  .log-item .log-item-description {
-    width: 66.66%; }
-    @media (max-width: 480px) {
-      .log-item .log-item-description {
-        width: 100%;
-        text-align: center; } }
-    .log-item .log-item-description p {
-      padding: 10px 15px;
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; }
-  .log-item .log-item-options {
-    width: 33.33%;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    text-align: center;
-    overflow: hidden; }
-    @media (max-width: 480px) {
-      .log-item .log-item-options {
-        width: 100%;
-        position: relative; } }
-    .log-item .log-item-options ul {
-      overflow: hidden;
-      margin: 0; }
-    .log-item .log-item-options li {
-      width: 50%;
-      float: left;
-      display: block;
-      padding: 0;
-      position: relative; }
-    .log-item .log-item-options .option-label {
-      transition: 200ms;
-      transition-delay: 10ms;
-      font-size: 0.5em;
-      display: block;
-      color: black;
-      min-height: 10px;
-      text-transform: uppercase; }
-    .log-item .log-item-options .option-detail {
-      display: block;
-      height: 20px;
-      width: 100%;
-      position: relative; }
-      .log-item .log-item-options .option-detail .option-detail-center {
-        position: absolute;
-        left: 0;
-        right: 0;
-        margin: auto; }
-    .log-item .log-item-options .select-line {
-      width: 50%;
-      margin: 0;
-      height: 12px;
-      background-color: #87CEFA;
-      border-radius: 3px 3px 0 0;
+  overflow: hidden; }
+  .log-item .log-item-header {
+    position: relative; }
+    .log-item .log-item-header .log-item-description {
+      width: 66.66%; }
+      @media (max-width: 480px) {
+        .log-item .log-item-header .log-item-description {
+          width: 100%;
+          text-align: center; } }
+      .log-item .log-item-header .log-item-description p {
+        padding: 10px 15px;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+    .log-item .log-item-header .log-item-options {
+      width: 33.33%;
       position: absolute;
-      left: 100%;
+      right: 0;
       bottom: 0;
-      transition: 200ms; }
-    .log-item .log-item-options.selected-option-1 .option-1 .option-label, .log-item .log-item-options.selected-option-2 .option-2 .option-label {
-      color: white; }
-    .log-item .log-item-options.selected-option-1 .select-line {
-      left: 0%; }
-    .log-item .log-item-options.selected-option-2 .select-line {
-      left: 50%; }
+      overflow: hidden;
+      text-align: center;
+      overflow: hidden; }
+      @media (max-width: 480px) {
+        .log-item .log-item-header .log-item-options {
+          width: 100%;
+          position: relative; } }
+      .log-item .log-item-header .log-item-options ul {
+        overflow: hidden;
+        margin: 0; }
+      .log-item .log-item-header .log-item-options li {
+        width: 50%;
+        float: left;
+        display: block;
+        padding: 0;
+        position: relative; }
+      .log-item .log-item-header .log-item-options .tab-label {
+        transition: 200ms;
+        transition-delay: 10ms;
+        font-size: 0.5em;
+        display: block;
+        color: black;
+        min-height: 10px;
+        text-transform: uppercase; }
+      .log-item .log-item-header .log-item-options .tab-detail {
+        display: block;
+        height: 20px;
+        width: 100%;
+        position: relative; }
+        .log-item .log-item-header .log-item-options .tab-detail .tab-detail-center {
+          position: absolute;
+          left: 0;
+          right: 0;
+          margin: auto; }
+      .log-item .log-item-header .log-item-options .select-line {
+        width: 50%;
+        margin: 0;
+        height: 12px;
+        background-color: #87CEFA;
+        border-radius: 3px 3px 0 0;
+        position: absolute;
+        left: 100%;
+        bottom: 0;
+        transition: 200ms; }
+      .log-item .log-item-header .log-item-options.selected-tab-request .tab-request .tab-label, .log-item .log-item-header .log-item-options.selected-tab-response .tab-response .tab-label {
+        color: white; }
+      .log-item .log-item-header .log-item-options.selected-tab-request .select-line {
+        left: 0%; }
+      .log-item .log-item-header .log-item-options.selected-tab-response .select-line {
+        left: 50%; }
+  .log-item .log-item-body {
+    padding: 15px 15px;
+    border-top: 2px solid #87CEFA;
+    font-size: 0.8em; }
+  .log-item .log-item-request th {
+    white-space: nowrap; }
 
 .bubblingG {
   text-align: center;

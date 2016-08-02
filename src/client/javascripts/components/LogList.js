@@ -23,7 +23,6 @@ var LogList = (function (_super) {
     };
     LogList.prototype.componentDidMount = function () {
         var _this = this;
-        console.log(this);
         this.state.subscription = io.connect("/subscribe");
         this.state.subscription.on('connect', function () {
             _this.state.subscription.on("request-head", function (data) {
@@ -32,7 +31,7 @@ var LogList = (function (_super) {
                     communication.requestHead = {
                         url: data.url,
                         method: data.method,
-                        headers: {}
+                        headers: data.headers
                     };
                     state.communicationIndex[data.key] = communication;
                     state.logItemElements.unshift(React.createElement(LogItem_1.default, {key: data.key, communication: communication}));
@@ -49,7 +48,7 @@ var LogList = (function (_super) {
                     return;
                 communication.responseHead = {
                     statusCode: data.statusCode,
-                    headers: {}
+                    headers: data.headers
                 };
             });
             _this.state.subscription.on("response-body", function (data) {

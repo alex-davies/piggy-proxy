@@ -44252,6 +44252,8 @@ var mobx_react_1 = require("mobx-react");
 var mobx_1 = require('mobx');
 var LoadingBubbles_1 = require("./LoadingBubbles");
 var ReactCSSTransitionGroup = require("react-addons-css-transition-group");
+var RequestView_1 = require("./RequestView");
+var ResponseView_1 = require("./ResponseView");
 var Communication = (function () {
     function Communication() {
     }
@@ -44264,29 +44266,39 @@ var Communication = (function () {
     return Communication;
 }());
 exports.Communication = Communication;
+var TabOptions;
+(function (TabOptions) {
+    TabOptions[TabOptions["Request"] = 1] = "Request";
+    TabOptions[TabOptions["Response"] = 2] = "Response";
+})(TabOptions || (TabOptions = {}));
 var LogItem = (function (_super) {
     __extends(LogItem, _super);
     function LogItem() {
         _super.call(this);
         this.state = {
-            selectedOption: 0
+            openTab: null
         };
     }
     LogItem.prototype.render = function () {
         var classNames = "log-item-options";
-        if (this.state.selectedOption)
-            classNames += " selected-option-" + this.state.selectedOption;
-        return (React.createElement("li", {className: "log-item"}, React.createElement("div", {className: "log-item-description"}, React.createElement("p", null, this.props.communication.requestHead.url)), React.createElement("div", {className: classNames}, React.createElement("div", {className: "select-line"}), React.createElement("ul", null, React.createElement("li", {className: "option-1"}, React.createElement("a", {className: "unstyled", onClick: this.optionClickHandler(1)}, React.createElement("span", {className: "option-detail"}, this.props.communication.requestHead.method.toUpperCase()), React.createElement("span", {className: "option-label"}, "Request"))), React.createElement("li", {className: "option-2"}, React.createElement("a", {className: "unstyled", onClick: this.optionClickHandler(2)}, React.createElement("span", {className: "option-detail"}, React.createElement(ReactCSSTransitionGroup, {transitionName: "fade-300-300", transitionEnterTimeout: 300, transitionLeaveTimeout: 300}, (this.props.communication.responseHead == null)
-            ? React.createElement("span", {key: "bubbles", className: "option-detail-center"}, React.createElement(LoadingBubbles_1.default, null))
-            : React.createElement("span", {key: "code", className: "option-detail-center"}, this.props.communication.responseHead.statusCode))), React.createElement("span", {className: "option-label"}, "Response")))))));
+        var tabName = this.state.openTab && TabOptions[this.state.openTab];
+        if (tabName)
+            classNames += " selected-tab-" + tabName.toLowerCase();
+        return (React.createElement("li", {className: "log-item"}, React.createElement("div", {className: "log-item-header"}, React.createElement("div", {className: "log-item-description"}, React.createElement("p", null, this.props.communication.requestHead.url)), React.createElement("div", {className: classNames}, React.createElement("div", {className: "select-line"}), React.createElement("ul", null, React.createElement("li", {className: "tab-request"}, React.createElement("a", {className: "unstyled", onClick: this.optionClickHandler(TabOptions.Request)}, React.createElement("span", {className: "tab-detail"}, this.props.communication.requestHead.method.toUpperCase()), React.createElement("span", {className: "tab-label"}, "Request"))), React.createElement("li", {className: "tab-response"}, React.createElement("a", {className: "unstyled", onClick: this.optionClickHandler(TabOptions.Response)}, React.createElement("span", {className: "tab-detail"}, React.createElement(ReactCSSTransitionGroup, {transitionName: "fade-300-300", transitionEnterTimeout: 300, transitionLeaveTimeout: 300}, (this.props.communication.responseHead == null)
+            ? React.createElement("span", {key: "bubbles", className: "tab-detail-center"}, React.createElement(LoadingBubbles_1.default, null))
+            : React.createElement("span", {key: "code", className: "tab-detail-center"}, this.props.communication.responseHead.statusCode))), React.createElement("span", {className: "tab-label"}, "Response")))))), React.createElement(ReactCSSTransitionGroup, {transitionName: "fade-300-300", transitionEnterTimeout: 300, transitionLeaveTimeout: 300}, this.state.openTab
+            ? React.createElement("div", {className: "log-item-body"}, React.createElement(ReactCSSTransitionGroup, {transitionName: "fade-300-300", transitionEnterTimeout: 300, transitionLeaveTimeout: 300}, this.state.openTab === TabOptions.Request ? React.createElement(RequestView_1.default, {key: "requestView", communication: this.props.communication})
+                : this.state.openTab === TabOptions.Response ? React.createElement(ResponseView_1.default, {key: "responseView", communication: this.props.communication})
+                    : null))
+            : null)));
     };
     LogItem.prototype.optionClickHandler = function (option) {
         var _this = this;
         return function (e) {
             e.preventDefault();
-            if (_this.state.selectedOption === option)
+            if (_this.state.openTab === option)
                 option = 0;
-            _this.setState({ selectedOption: option });
+            _this.setState({ openTab: option });
         };
     };
     LogItem = __decorate([
@@ -44297,7 +44309,7 @@ var LogItem = (function (_super) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LogItem;
 
-},{"./LoadingBubbles":247,"mobx":18,"mobx-react":17,"react":198,"react-addons-css-transition-group":19}],249:[function(require,module,exports){
+},{"./LoadingBubbles":247,"./RequestView":250,"./ResponseView":251,"mobx":18,"mobx-react":17,"react":198,"react-addons-css-transition-group":19}],249:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -44323,7 +44335,6 @@ var LogList = (function (_super) {
     };
     LogList.prototype.componentDidMount = function () {
         var _this = this;
-        console.log(this);
         this.state.subscription = io.connect("/subscribe");
         this.state.subscription.on('connect', function () {
             _this.state.subscription.on("request-head", function (data) {
@@ -44332,7 +44343,7 @@ var LogList = (function (_super) {
                     communication.requestHead = {
                         url: data.url,
                         method: data.method,
-                        headers: {}
+                        headers: data.headers
                     };
                     state.communicationIndex[data.key] = communication;
                     state.logItemElements.unshift(React.createElement(LogItem_1.default, {key: data.key, communication: communication}));
@@ -44349,7 +44360,7 @@ var LogList = (function (_super) {
                     return;
                 communication.responseHead = {
                     statusCode: data.statusCode,
-                    headers: {}
+                    headers: data.headers
                 };
             });
             _this.state.subscription.on("response-body", function (data) {
@@ -44368,6 +44379,76 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LogList;
 
 },{"./LogItem":248,"react":198,"socket.io-client":199}],250:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var React = require("react");
+var mobx_react_1 = require("mobx-react");
+var RequestView = (function (_super) {
+    __extends(RequestView, _super);
+    function RequestView() {
+        _super.apply(this, arguments);
+    }
+    RequestView.prototype.render = function () {
+        var headers = this.props.communication.requestHead.headers;
+        return (React.createElement("div", {className: "log-item-request"}, React.createElement("div", {className: "panel panel-default"}, React.createElement("div", {className: "panel-heading"}, "Headers"), React.createElement("table", {className: "table"}, React.createElement("tbody", null, Object.keys(headers).map(function (key) {
+            return React.createElement("tr", null, React.createElement("th", null, key), React.createElement("td", null, headers[key]));
+        }))))));
+    };
+    RequestView = __decorate([
+        mobx_react_1.observer
+    ], RequestView);
+    return RequestView;
+}(React.Component));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = RequestView;
+;
+
+},{"mobx-react":17,"react":198}],251:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var React = require("react");
+var mobx_react_1 = require("mobx-react");
+var ResponseView = (function (_super) {
+    __extends(ResponseView, _super);
+    function ResponseView() {
+        _super.apply(this, arguments);
+    }
+    ResponseView.prototype.render = function () {
+        var headers = this.props.communication.responseHead.headers;
+        return (React.createElement("div", {className: "log-item-response"}, React.createElement("div", {className: "panel panel-default"}, React.createElement("div", {className: "panel-heading"}, "Headers"), React.createElement("table", {className: "table"}, React.createElement("tbody", null, Object.keys(headers).map(function (key) {
+            return React.createElement("tr", null, React.createElement("th", null, key), React.createElement("td", null, headers[key]));
+        }))))));
+    };
+    ResponseView = __decorate([
+        mobx_react_1.observer
+    ], ResponseView);
+    return ResponseView;
+}(React.Component));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = ResponseView;
+;
+
+},{"mobx-react":17,"react":198}],252:[function(require,module,exports){
 (function (global){
 "use strict";
 var App_1 = require("./components/App");
@@ -44379,4 +44460,4 @@ require("bootstrap");
 ReactDOM.render(React.createElement(App_1.default, null), document.getElementById('content'));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/App":246,"bootstrap":1,"jquery":16,"react":198,"react-dom":20}]},{},[250]);
+},{"./components/App":246,"bootstrap":1,"jquery":16,"react":198,"react-dom":20}]},{},[252]);

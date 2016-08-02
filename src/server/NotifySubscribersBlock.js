@@ -11,7 +11,8 @@ var NotifySubscribersBlock = (function () {
         this.socketNamespace.emit("request-head", {
             key: key,
             url: request.url,
-            method: request.method
+            method: request.method,
+            headers: request.headers
         });
         request.body.on("data", function (data) {
             _this.socketNamespace.emit("request-body", {

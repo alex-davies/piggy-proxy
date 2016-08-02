@@ -16,20 +16,21 @@ export default class NotifySubscribersBlock implements ProcessingBlock{
         this.socketNamespace.emit("request-head", {
             key:key,
             url:request.url,
-            method:request.method
+            method:request.method,
+            headers:request.headers
         });
 
         request.body.on("data", data=>{
             this.socketNamespace.emit("request-body", {
                 key:key,
                 chunk:data
-            })
+            });
         });
 
         request.body.on("end", data=>{
             this.socketNamespace.emit("request-tail", {
                 key:key
-            })
+            });
         });
 
 

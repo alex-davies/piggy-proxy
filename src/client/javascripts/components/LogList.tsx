@@ -32,12 +32,12 @@ export default class LogList extends React.Component<LogListProps, LogListState>
         );
     }
     componentDidMount(){
-        console.log(this);
         this.state.subscription = io.connect("/subscribe");
         this.state.subscription.on('connect', ()=>{
 
 
             this.state.subscription.on("request-head", (data)=> {
+
 
                 this.setState((state,props)=>{
 
@@ -45,7 +45,7 @@ export default class LogList extends React.Component<LogListProps, LogListState>
                     communication.requestHead = {
                         url: data.url,
                         method: data.method,
-                        headers: {} as {[key:string]:string}
+                        headers: data.headers as {[key:string]:string}
                     };
 
                     state.communicationIndex[data.key] = communication;
@@ -69,7 +69,7 @@ export default class LogList extends React.Component<LogListProps, LogListState>
                     return;
                 communication.responseHead = {
                     statusCode: data.statusCode,
-                    headers: {} as {[key:string]:string}
+                    headers: data.headers as {[key:string]:string}
                 };
             });
 
